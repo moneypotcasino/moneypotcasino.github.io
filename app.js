@@ -1483,7 +1483,7 @@ var BetBoxButton = React.createClass({
               {
                 id: 'bet-hi',
                 type: 'button',
-                className: 'btn btn-lg btn-primary btn-block',
+                className: 'btn btn-lg btn-danger btn-block',
                 onClick: this._makeBetHandler('>'),
                 disabled: !!this.state.waitingForServer
               },
@@ -1497,7 +1497,7 @@ var BetBoxButton = React.createClass({
               {
                 id: 'bet-lo',
                 type: 'button',
-                className: 'btn btn-lg btn-primary btn-block',
+                className: 'btn btn-lg btn-danger btn-block',
                 onClick: this._makeBetHandler('<'),
                 disabled: !!this.state.waitingForServer
               },
@@ -2138,7 +2138,7 @@ var Footer = React.createClass({
       'Powered by ',
       el.a(
         {
-          href: 'https://www.moneypot.com'
+          href: 'https://www.moneypot.com/apps/1326'
         },
         'Moneypot'
       )
