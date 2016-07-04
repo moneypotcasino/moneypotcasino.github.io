@@ -113,9 +113,9 @@ helpers.roleToLabelElement = function(role) {
     case 'ADMIN':
       return el.span({className: 'label label-danger'}, 'MP Staff');
     case 'MOD':
-      return el.span({className: 'label label-info'}, 'Mod');
+      return el.span({className: 'label label-info'}, 'MOD');
     case 'OWNER':
-      return el.span({className: 'label label-primary'}, 'Owner');
+      return el.span({className: 'label label-primary'}, 'OWNER');
     default:
       return '';
   }
@@ -707,7 +707,7 @@ var UserBox = React.createClass({
           el.button(
             {
               type: 'button',
-              className: 'btn navbar-btn btn-xs ' + (betStore.state.wager.error === 'CANNOT_AFFORD_WAGER' ? 'btn-success' : 'btn-default'),
+              className: 'btn btn-success navbar-btn btn-xs ' + (betStore.state.wager.error === 'CANNOT_AFFORD_WAGER' ? 'btn-success' : 'btn-default'),
               onClick: this._openDepositPopup
             },
             'Deposit'
@@ -715,7 +715,7 @@ var UserBox = React.createClass({
           el.button(
             {
               type: 'button',
-              className: 'btn btn-default navbar-btn btn-xs',
+              className: 'btn btn-danger navbar-btn btn-xs',
               onClick: this._openWithdrawPopup
             },
             'Withdraw'
@@ -908,7 +908,7 @@ var ChatBoxInput = React.createClass({
           el.button(
             {
               type: 'button',
-              className: 'btn btn-default btn-block',
+              className: 'btn btn-success btn-block',
               disabled: !worldStore.state.user ||
                 chatStore.state.waitingForServer ||
                 this.state.text.trim().length === 0,
@@ -1050,10 +1050,10 @@ var ChatBox = React.createClass({
         // Show/Hide userlist button
         el.button(
           {
-            className: 'btn btn-default btn-xs',
+            className: 'btn btn-success btn-xs',
             onClientClick: this._onUserListToggle
           },
-          chatStore.state.showUserList ? 'Hide' : 'Show'
+          chatStore.state.showUserList ? 'Hide' : 'Online'
         )
       ),
       // Show userlist
@@ -1229,7 +1229,7 @@ var BetBoxMultiplier = React.createClass({
           }
         ),
         el.span(
-          {className: 'input-group-addon'},
+          {className: 'input-group-addon btn-primary'},
           'x'
         )
       )
@@ -1312,7 +1312,7 @@ var BetBoxWager = React.createClass({
           {className: 'btn-group'},
           el.button(
             {
-              className: 'btn btn-default btn-md',
+              className: 'btn btn-success btn-md',
               type: 'button',
               style: style2,
               onClick: this._onHalveWager
@@ -1324,7 +1324,7 @@ var BetBoxWager = React.createClass({
           {className: 'btn-group'},
           el.button(
             {
-              className: 'btn btn-default btn-md',
+              className: 'btn btn-primary btn-md',
               type: 'button',
               onClick: this._onDoubleWager
             },
@@ -1335,7 +1335,7 @@ var BetBoxWager = React.createClass({
           {className: 'btn-group'},
           el.button(
             {
-              className: 'btn btn-default btn-md',
+              className: 'btn btn-danger btn-md',
               type: 'button',
               style: style3,
               onClick: this._onMaxWager
@@ -1550,7 +1550,7 @@ var HotkeyToggle = React.createClass({
         el.button(
           {
             type: 'button',
-            className: 'btn btn-default btn-sm',
+            className: 'btn btn-primary btn-sm',
             onClick: this._onClick,
             style: { marginTop: '-15px' }
           },
@@ -1651,7 +1651,7 @@ var Tabs = React.createClass({
             href: 'javascript:void(0)',
             onClick: this._makeTabChangeHandler('ALL_BETS')
           },
-          'All Bets'
+          'Community Bets'
         )
       ),
       // Only show MY BETS tab if user is logged in
@@ -1676,7 +1676,19 @@ var Tabs = React.createClass({
               href: 'javascript:void(0)',
               onClick: this._makeTabChangeHandler('FAUCET')
             },
-            el.span(null, 'Faucet ')
+            el.span(null, 'Free Bits ')
+          )
+        ),
+		// Only show MY BETS tab if user is logged in
+      !worldStore.state.user ? '' :
+        el.li(
+          {className: worldStore.state.currTab === 'Affiliate' ? 'active' : ''},
+          el.a(
+            {
+              href: 'javascript:void(0)',
+              onClick: this._makeTabChangeHandler('Affiliate')
+            },
+            'Affiliate'
           )
         )
     );
@@ -1772,6 +1784,57 @@ var MyBetsTabContent = React.createClass({
                   '+' + helpers.round10(bet.profit/100, -2) :
                   helpers.round10(bet.profit/100, -2),
                 ' bits'
+              )
+            );
+          }).reverse()
+        )
+      )
+    );
+  }
+});
+
+var AffiliateTabContent = React.createClass({
+  displayName: 'AffiliateTabContent',
+  _onStoreChange: function() {
+    this.forceUpdate();
+  },
+  componentDidMount: function() {
+    worldStore.on('change', this._onStoreChange);
+  },
+  componentWillUnmount: function() {
+    worldStore.off('change', this._onStoreChange);
+  },
+  render: function() {
+    return el.div(
+      null,
+      el.table(
+        {className: 'table'},
+        el.thead(
+          null,
+          el.tr(
+            null,user
+            el.th(null, 'Refferal From URL'),
+            el.th(null, 'Users'),
+          )
+        ),
+        el.tbody(
+          null,
+          worldStore.state.bets.toArray().map(function(bet) {
+            return el.tr(
+              {
+                key: bet.bet_id || bet.id
+              },
+              // bet id
+              el.td(
+                null,
+                el.a(
+                  {
+                    href: 'http://botdice.manydice.ml/#' + uname,
+                    target: '_blank'
+                  },
+                  'http://botdice.manydice.ml/#' + uname,
+                )
+              ),
               )
             );
           }).reverse()
@@ -2071,20 +2134,20 @@ var AllBetsTabContent = React.createClass({
           null,
           el.tr(
             null,
-            el.th(null, 'ID'),
-            el.th(null, 'Time'),
-            el.th(null, 'User'),
-            el.th(null, 'Wager'),
-            el.th({className: 'text-right'}, 'Target'),
-            // el.th(null, 'Roll'),
-            el.th(null, 'Outcome'),
+            el.th(null, 'BET ID'),
+            el.th(null, 'BET Time'),
+            el.th(null, 'BET User'),
+            el.th(null, 'BET Wager'),
+            el.th({className: 'text-right'}, 'BET Target'),
+            // el.th(null, 'BET Roll'),
+            el.th(null, 'BET Outcome'),
             el.th(
               {
                 style: {
                   paddingLeft: '50px'
                 }
               },
-              'Profit'
+              'BET Profit'
             )
           )
         ),
@@ -2114,6 +2177,8 @@ var TabContent = React.createClass({
     switch(worldStore.state.currTab) {
       case 'FAUCET':
         return React.createElement(FaucetTabContent, null);
+	  case 'Affiliate':
+        return React.createElement(AffiliateTabContent, null);
       case 'MY_BETS':
         return React.createElement(MyBetsTabContent, null);
       case 'ALL_BETS':
