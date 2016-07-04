@@ -6,11 +6,11 @@ var config = {
   // - Your app's id on moneypot.com
     app_id: 1326,                             // <----------------------------- EDIT ME!
   // - Displayed in the navbar
-  app_name: 'TheDiceBot',
+  app_name: 'DiceBot Dice',
   // - For your faucet to work, you must register your site at Recaptcha
   // - https://www.google.com/recaptcha/intro/index.html
   recaptcha_sitekey: '6LexiiMTAAAAAPgk61SMBRTB27tlrzKl87arwrgN',  // <----- EDIT ME!
-  redirect_uri: 'http://autobot.manydice.ml/',
+  redirect_uri: 'http://botdice.manydice.ml/',
   mp_browser_uri: 'https://www.moneypot.com',
   mp_api_uri: 'https://api.moneypot.com',
   chat_uri: '//socket.moneypot.com',
@@ -380,7 +380,7 @@ if (helpers.getHashParams().access_token) {
 
 // Scrub fragment params from url.
 if (window.history && window.history.replaceState) {
-  window.history.replaceState({}, document.title, "/mpdb/");
+  window.history.replaceState({}, document.title, "/");
 } else {
   // For browsers that don't support html5 history api, just do it the old
   // fashioned way that leaves a trailing '#' in the url
