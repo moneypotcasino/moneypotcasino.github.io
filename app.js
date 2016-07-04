@@ -1678,18 +1678,6 @@ var Tabs = React.createClass({
             },
             el.span(null, 'Free Bits ')
           )
-        ),
-		// Only show MY BETS tab if user is logged in
-      !worldStore.state.user ? '' :
-        el.li(
-          {className: worldStore.state.currTab === 'Affiliate' ? 'active' : ''},
-          el.a(
-            {
-              href: 'javascript:void(0)',
-              onClick: this._makeTabChangeHandler('Affiliate')
-            },
-            'Affiliate'
-          )
         )
     );
   }
@@ -1784,57 +1772,6 @@ var MyBetsTabContent = React.createClass({
                   '+' + helpers.round10(bet.profit/100, -2) :
                   helpers.round10(bet.profit/100, -2),
                 ' bits'
-              )
-            );
-          }).reverse()
-        )
-      )
-    );
-  }
-});
-
-var AffiliateTabContent = React.createClass({
-  displayName: 'AffiliateTabContent',
-  _onStoreChange: function() {
-    this.forceUpdate();
-  },
-  componentDidMount: function() {
-    worldStore.on('change', this._onStoreChange);
-  },
-  componentWillUnmount: function() {
-    worldStore.off('change', this._onStoreChange);
-  },
-  render: function() {
-    return el.div(
-      null,
-      el.table(
-        {className: 'table'},
-        el.thead(
-          null,
-          el.tr(
-            null,user
-            el.th(null, 'Refferal From URL'),
-            el.th(null, 'Users'),
-          )
-        ),
-        el.tbody(
-          null,
-          worldStore.state.bets.toArray().map(function(bet) {
-            return el.tr(
-              {
-                key: bet.bet_id || bet.id
-              },
-              // bet id
-              el.td(
-                null,
-                el.a(
-                  {
-                    href: 'http://botdice.manydice.ml/#' + uname,
-                    target: '_blank'
-                  },
-                  'http://botdice.manydice.ml/#' + uname,
-                )
-              ),
               )
             );
           }).reverse()
@@ -2177,8 +2114,6 @@ var TabContent = React.createClass({
     switch(worldStore.state.currTab) {
       case 'FAUCET':
         return React.createElement(FaucetTabContent, null);
-	  case 'Affiliate':
-        return React.createElement(AffiliateTabContent, null);
       case 'MY_BETS':
         return React.createElement(MyBetsTabContent, null);
       case 'ALL_BETS':
