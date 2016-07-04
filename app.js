@@ -4,13 +4,13 @@
 
 var config = {
   // - Your app's id on moneypot.com
-  app_id: 1326,                             // <----------------------------- EDIT ME!
+    app_id: 1326,                             // <----------------------------- EDIT ME!
   // - Displayed in the navbar
-  app_name: 'Untitled Dice',
+  app_name: 'TheDiceBot',
   // - For your faucet to work, you must register your site at Recaptcha
   // - https://www.google.com/recaptcha/intro/index.html
   recaptcha_sitekey: '6LexiiMTAAAAAPgk61SMBRTB27tlrzKl87arwrgN',  // <----- EDIT ME!
-  redirect_uri: 'http://moneypotcasino.github.io/',
+  redirect_uri: 'http://autobot.manydice.ml/',
   mp_browser_uri: 'https://www.moneypot.com',
   mp_api_uri: 'https://api.moneypot.com',
   chat_uri: '//socket.moneypot.com',
@@ -380,7 +380,7 @@ if (helpers.getHashParams().access_token) {
 
 // Scrub fragment params from url.
 if (window.history && window.history.replaceState) {
-  window.history.replaceState({}, document.title, "/");
+  window.history.replaceState({}, document.title, "/mpdb/");
 } else {
   // For browsers that don't support html5 history api, just do it the old
   // fashioned way that leaves a trailing '#' in the url
@@ -543,6 +543,7 @@ var worldStore = new Store('world', {
   Dispatcher.registerCallback('UPDATE_USER', function(data) {
     self.state.user = _.merge({}, self.state.user, data);
     self.emitter.emit('change', self.state);
+    
   });
 
   // deprecate in favor of SET_USER
@@ -550,6 +551,7 @@ var worldStore = new Store('world', {
     self.state.user = user;
     self.emitter.emit('change', self.state);
     self.emitter.emit('user_update');
+    
   });
 
   // Replace with CLEAR_USER
@@ -1049,7 +1051,7 @@ var ChatBox = React.createClass({
         el.button(
           {
             className: 'btn btn-default btn-xs',
-            onClick: this._onUserListToggle
+            onClientClick: this._onUserListToggle
           },
           chatStore.state.showUserList ? 'Hide' : 'Show'
         )
@@ -2184,7 +2186,10 @@ React.render(
 // If not accessToken,
 // If accessToken, then
 if (!worldStore.state.accessToken) {
-  Dispatcher.sendAction('STOP_LOADING');
+    Dispatcher.sendAction('STOP_LOADING');
+    //console.log("updating lable: " + self.state.accessToken);
+    document.getElementById("lblToken").textContent = worldStore.state.accessToken;
+    worldStore.state.showUserList = true;
   connectToChatServer();
 } else {
   // Load user from accessToken
@@ -2198,7 +2203,10 @@ if (!worldStore.state.accessToken) {
       console.log('Error:', err);
     },
     complete: function() {
-      Dispatcher.sendAction('STOP_LOADING');
+        Dispatcher.sendAction('STOP_LOADING');
+        //console.log("updating lable: " + self.state.accessToken);
+        document.getElementById("lblToken").textContent = worldStore.state.accessToken;
+        worldStore.state.showUserList = true;
       connectToChatServer();
     }
   });
