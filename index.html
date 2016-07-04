@@ -1,6 +1,8 @@
 <!doctype html>
 <head>
   <title>Untitled Dice</title>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
   <link href="node_modules/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="node_modules/bootstrap/dist/css/bootstrap-theme.min.css" rel="stylesheet">
   <link href="style.css" rel="stylesheet">
@@ -16,7 +18,7 @@
       <li class="active"><a href="index.html">Play</a></li>
       <li><a href="http://moneypot.com/apps/1326">Moneypot</a></li>
       <li><a href="http://manydice.ml/bot/download.html">Download</a></li>
-      <li><a href="#"><span id="ContentPlaceHolder1_lblLoginSuccess">API Key: <span id="lblToken"></span></span></a></li>
+      <li><a href="#" data-toggle="modal" data-target="#myModal>Get Your API KEY</a></li>
     </ul>
 	<ul class="nav navbar-nav navbar-right">
       <li><a href="https://www.moneypot.com/oauth/authorize?app_id=1326&redirect_uri=http://botdice.manydice.ml/"><span class="glyphicon glyphicon-user"></span> Authenticate</a></li>
@@ -36,4 +38,28 @@
   <script src="node_modules/bootstrap/js/popover.js"></script>
   <script src="app.js" type="text/javascript"></script>
   <script src="//www.google.com/recaptcha/api.js?render=explicit&onload=onRecaptchaLoad" async defer></script>
+  
+  <!-- Modal -->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">API KEY</h4>
+        </div>
+        <div class="modal-body">
+          <span id="ContentPlaceHolder1_lblLoginSuccess">API Key: <span id="lblToken"></span></span></b>
+          <iframe scrolling="no" style="border: 0; width: 728px; height: 90px;" src="//coinurl.com/get.php?id=53628&SSL=1"></iframe></b>
+          <iframe scrolling="no" style="border: 0; width: 728px; height: 90px;" src="//coinurl.com/get.php?id=53628"></iframe>
+        </div>
+        <div class="modal-footer">
+          Powered by BitCasino & CoinUrl
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+    </div>
+  </div>
 </body>
